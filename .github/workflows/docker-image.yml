@@ -14,4 +14,4 @@ jobs:
       - name: Build the Docker image
         run: docker build . --file Dockerfile --tag texlive-ja
       - name: Test the Docker image
-        run: docker run -v $(pwd)/tests:/workdir texlive-ja latexmk main.tex
+        run: docker run -v $(pwd)/tests:/workdir texlive-ja llmk main.tex
