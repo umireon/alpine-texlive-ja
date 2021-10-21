@@ -12,6 +12,6 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Build the Docker image
-        run: docker build . --file Dockerfile --tag texlive-ja
+        run: docker buildx build . --file Dockerfile --tag texlive-ja
       - name: Test the Docker image
-        run: docker run -v $(pwd)/tests:/workdir texlive-ja latexmk main.tex
+        run: docker run -v $(pwd)/test:/workdir texlive-ja llmk

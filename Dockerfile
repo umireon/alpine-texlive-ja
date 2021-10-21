@@ -23,20 +23,28 @@ RUN case $TARGETARCH in \
       arm64 ) ln -sf /usr/local/texlive/2021/bin/aarch64-linux /usr/local/texlive/bin ;; \
       arm ) ln -sf /usr/local/texlive/2021/bin/armhf-linux /usr/local/texlive/bin ;; \
     esac
+RUN tlmgr update --self --all
 RUN tlmgr install \
   collection-latexextra \
   collection-fontsrecommended \
-  collection-langjapanese \
-  latexmk
+  collection-langjapanese
+RUN tlmgr install \
+  latexmk \
+  light-latex-make \
+  newtx \
+  physics \
+  siunitx
 
 FROM debian:bullseye-slim
-RUN apt-get update && apt-get install -y \
-  perl \
-  wget \
-  && rm -rf /var/lib/apt/lists/*
 
 ENV PATH /usr/local/texlive/bin:$PATH
 COPY --from=0 /usr/local/texlive /usr/local/texlive
 WORKDIR /workdir
+
+RUN apt-get update && apt-get install -y \
+  gnuplot \
+  perl \
+  wget \
+  && rm -rf /var/lib/apt/lists/*
 
 CMD ["bash"]
